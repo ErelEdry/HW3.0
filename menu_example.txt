@@ -1,0 +1,148 @@
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: a
+Invalid choice. Please select a valid option.
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 6
+Invalid choice. Please select a valid option.
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: ?!
+Invalid choice. Please select a valid option.
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 1
+Write your query here: M,A,L
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: 1
+Invalid choice. Please select a valid option.
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: a
+Invalid choice. Please select a valid option.
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: A
+All relevance sequences:
+1 : 0.117
+3 : 0.542
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: B
+The most relevant sequence is 3 with score 0.542
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: C
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 2
+Insert the sequence ID: 1
+The sequence ID 1 is already in sequence_corpus.
+Insert the sequence ID: 4
+Insert the sequence itself: tyghahgatgttccggcafdsa
+Sequence 4 was successfully added!
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 3
+Insert the sequence ID: 5
+The sequence ID 5 is not in corpus.
+Insert the sequence ID: 4
+Insert an Amino Acid: M
+AAF-ISF of the amino acid M in sequence 4 is: 0.104
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 3
+Insert the sequence ID: 1
+Insert an Amino Acid: P
+The amino acid P is not in sequence_corpus.
+Insert an Amino Acid: A
+AAF-ISF of the amino acid A in sequence 1 is: 0.0
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 4
+Insert the sequence ID: 10
+The sequence ID 10 is not in corpus.
+Insert the sequence ID: 4
+Sequence 4 was successfully deleted.
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 1
+Write your query here: D,A,P
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: A
+All relevance sequences:
+1 : 0.317
+3 : 0.264
+Choose the type of results you would like to retrieve:
+	(A) All relevance sequences.
+	(B) The most relevant sequence.
+	(C) Back to the main menu.
+Your choice: C
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 3
+Insert the sequence ID: 3
+Insert an Amino Acid: R
+AAF-ISF of the amino acid R in sequence 3 is: 0.097
+Choose an option from the menu:
+	(1) Insert a query.
+	(2) Add sequence to sequence_corpus.
+	(3) Calculate TF-IDF Score for an amino acid in a sequence.
+	(4) Delete a sequence from the sequence_corpus.
+	(5) Exit.
+Your choice: 5
