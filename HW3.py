@@ -11,7 +11,7 @@ seq_corpus = {
 # Helper function
 def deep_copy_dict(original_dict):
     """
-    This function recursively copies the dictionary, including any nested dictionaries inside.
+    This function copies the dictionary.
 
     :return: A new dictionary that is a deep copy of the original.
     """
@@ -61,7 +61,6 @@ def remove_punctuation(seq):
         else:
             str += " "  # if is a punctuation replace with space
         i += 1
-
     return str
 
 
@@ -171,8 +170,8 @@ def translate(rna_seq):
     rna_list = []
     for i in range(len(rna_seq)):
         if codon_translator(rna_seq[i]) != 'stop':
-            rna_list.append(codon_translator(rna_seq[i]))
-        if codon_translator(rna_seq[i]) == 'stop':
+            rna_list.append(codon_translator(rna_seq[i]))#adding to the list
+        if codon_translator(rna_seq[i]) == 'stop': #if we getting a stop, we stopping the function
             break
 
     return rna_list
@@ -186,14 +185,12 @@ def preprocessing(seq):
     seq = capitalize_letters(seq)
     return translate(transcript(func_seq=proofreading(seq)))
 
-
 ###### Part B #######
 def get_sequences_data(sequence_corpus):
     """
     this function gets sequences data from the sequence corpus
     :return: sequences_data
     """
-    sequence_corpus = deep_copy_dict(sequence_corpus)#Perform a deep copy of the sequence_corpus dictionary to prevent modifying the original dictionary
     sequences_data = {}
     pro_corpus = {key: preprocessing(sequence_corpus[key]) for key in
                   sequence_corpus}  # copy to keep the dic like at the start
@@ -208,7 +205,6 @@ def create_inverted_index(sequence_corpus):
     this function creates inverted index
     :return: inverted_index
     """
-    sequence_corpus = deep_copy_dict(sequence_corpus)#Perform a deep copy of the sequence_corpus dictionary to prevent modifying the original dictionary
     inverted_index = {}
     for key in sequence_corpus:
         sequence_corpus[key] = preprocessing(sequence_corpus[key])  # proccecing the dna
@@ -229,8 +225,6 @@ def add_to_data(inverted_index, sequences_data, seq_id, seq):
     this function adding sequence to the data
     :return: sequences_data,inverted_index
     """
-    shallow_inverted_index = deep_copy_dict(inverted_index)  # Perform a deep copy of the inverted_index dictionary to prevent modifying the original dictionary
-    shallow_sequences_data = deep_copy_dict(sequences_data)  # Perform a deep copy of the sequences_data dictionary to prevent modifying the original dictionary
     pro_seq = preprocessing(seq)  # Process the sequence
     sequences_data[seq_id] = len(pro_seq)  # Adding the seq_id as a key, and the len of processed sequence
     for i in pro_seq:  # Iterate over each character in the processed sequence
@@ -250,8 +244,6 @@ def remove_from_data(inverted_index, sequences_data, seq_id):
     this function removes sequence from the data
     :return: inverted_index,sequences_data
     """
-    shallow_inverted_index = deep_copy_dict(inverted_index)  # Perform a deep copy of the inverted_index dictionary to prevent modifying the original dictionary
-    shallow_sequences_data = deep_copy_dict(sequences_data)  # Perform a deep copy of the sequences_data dictionary to prevent modifying the original dictionary
     if seq_id in sequences_data:  # checikng if the seq_id exists
         sequences_data.pop(seq_id)  # using pop function to remove it
     for key, value in inverted_index.items():
@@ -280,9 +272,8 @@ def calculate_aaf_isf(amino_acid, seq_id, inverted_index, sequences_data):
     shallow_sequences_data = deep_copy_dict(sequences_data)  # Perform a deep copy of the sequences_data dictionary to prevent modifying the original dictionary
     if shallow_sequences_data.get(seq_id, 0) != 0:
         AAF = (math.log(len(shallow_sequences_data) / len(shallow_inverted_index.get(amino_acid, {})),2))  # calculation of AAF
-        ISF = round(shallow_inverted_index.get(amino_acid, {}).get(seq_id, 0) / shallow_sequences_data.get(seq_id,1),3)  # calculation of ISF
-        ans = round((AAF * ISF),3)
-        print(ans)
+        ISF = shallow_inverted_index.get(amino_acid, {}).get(seq_id, 0) / shallow_sequences_data.get(seq_id,1)  # calculation of ISF
+        ans = AAF * ISF
         return round(ans, 3)
 
 def get_scores_of_relevance_sequences(query, inverted_index, sequences_data):
@@ -300,30 +291,31 @@ def get_scores_of_relevance_sequences(query, inverted_index, sequences_data):
             for seq_id in shallow_inverted_index[amino_acid]:
                 if seq_id not in scores_seq:  # If the sequence ID is not already in the scores_seq dictionary, put 0
                     scores_seq[seq_id] = 0
-                scores_seq[seq_id] += round(calculate_aaf_isf(amino_acid, seq_id, inverted_index,shallow_sequences_data),3)  # Calculate the AAF-ISF score and add it to the scores_seq dictionary
+                scores_seq[seq_id] = round(
+                    scores_seq[seq_id] + calculate_aaf_isf(amino_acid, seq_id, inverted_index, shallow_sequences_data),
+                    3)  # Calculate the AAF-ISF score and add it to the scores_seq dictionary
     return scores_seq
+
 sequences_data = get_sequences_data(seq_corpus)
 inverted_index = create_inverted_index(seq_corpus)
 print(get_scores_of_relevance_sequences(('R', 'M', 'S'),
 inverted_index, sequences_data))
-
 ###### Part D #######
 def menu(sequence_corpus):
     """
     Displays the menu and allows the user to choose an option.
     Handles different actions based on the user's choice.
     """
-    choice = input(
-        'Choose an option from the menu:\n\t(1) Insert a query.\n\t(2) Add sequence to sequence_corpus.\n\t(3) Calculate AAF-ISF Score for an amino acid in a sequence.\n\t(4) Delete a sequence from the sequence_corpus.\n\t(5) Exit.\nYour choice: ')
-    query_choice = input(
-        'Choose the type of results you would like to retrieve:\n\t(A) All relevant sequences.\n\t(B) The most relevant sequence.\n\t(C) Back to the main menu.\nYour choice: ')
+    choice = input('Choose an option from the menu:\n\t(1) Insert a query.\n\t(2) Add sequence to sequence_corpus.\n\t(3) Calculate AAF-ISF Score for an amino acid in a sequence.\n\t(4) Delete a sequence from the sequence_corpus.\n\t(5) Exit.\nYour choice: ')
+
 
     if choice == '1':  # Insert a query
+        query_choice = input('Choose the type of results you would like to retrieve:\n\t(A) All relevant sequences.\n\t(B) The most relevant sequence.\n\t(C) Back to the main menu.\nYour choice: ')
         query = input('Write your query here:')
         if query_choice == 'A':  # Show all relevant sequences
             print(get_scores_of_relevance_sequences(preprocess_query(query), create_inverted_index(sequence_corpus),get_sequences_data(sequence_corpus)))
         elif query_choice == 'B':  # Show the most relevant sequence
-            highest_score_seq_id=max(calculate_aaf_isf().keys)
+            highest_score_seq_id=max(calculate_aaf_isf(), key=calculate_aaf_isf().get)
             highest_score=max(calculate_aaf_isf().values())
             print(f'The most relevant sequence is {highest_score_seq_id} with a score of {highest_score}')
         elif query_choice == 'C':  # Back to main menu
@@ -332,22 +324,25 @@ def menu(sequence_corpus):
             print('Invalid choice. Please select a valid option.')
             menu(sequence_corpus)
     elif choice == '2':  # Add sequence to corpus
-        seq_id = input("Insert the sequence ID:")
-        if seq_id not in sequence_corpus:  # Check if sequence is already present
-            add_to_data( create_inverted_index(sequence_corpus),get_sequences_data(sequence_corpus), seq_id, seq_corpus[seq_id])
-            print(f'Sequence {seq_id} was successfully added!')
-        else:
-            print(f'The sequence ID {seq_id} is already in sequence_corpus.')
+        while True:
+            seq_id = int(input("Insert the sequence ID:"))
+            if seq_id not in sequence_corpus.keys():  # Check if sequence is already present
+                new_seq=input(f'Insert the sequence itself:')
+                add_to_data( create_inverted_index(sequence_corpus),get_sequences_data(sequence_corpus), seq_id, new_seq)
+                print(f'Sequence {seq_id} was successfully added!')
+                break
+            else:
+                print(f'The sequence ID {seq_id} is already in sequence_corpus.')
     elif choice == '3':  # Calculate AAF-ISF Score for an amino acid
         while True:
-            seq_id = input("Insert the sequence ID:")
-            if seq_id not in sequence_corpus:  # Check if sequence exists
+            seq_id = int(input("Insert the sequence ID:"))
+            key_list=list(get_sequences_data(seq_corpus).keys())
+            if int(seq_id) not in key_list :  # Check if sequence exists
                 print(f'The sequence ID {seq_id} is not in sequence_corpus.')
             else:
                 amino_acid_after_preprocces = input("Insert the amino acid:")
                 while True:
-                    if amino_acid_after_preprocces not in preprocessing(
-                            sequence_corpus):  # Check if amino acid is valid
+                    if amino_acid_after_preprocces not in preprocessing(sequence_corpus[seq_id]):  # Check if amino acid is valid
                         print(f'The amino acid {amino_acid_after_preprocces} is not in sequence_corpus.')
                     else:
                         aaf_isf = calculate_aaf_isf(amino_acid_after_preprocces, seq_id,  create_inverted_index(sequence_corpus),get_sequences_data(sequence_corpus))
@@ -355,9 +350,9 @@ def menu(sequence_corpus):
                             f'AAF-ISF of the amino acid {amino_acid_after_preprocces} in sequence {seq_id} is: {aaf_isf}')
                         break
     elif choice == '4':  # Delete a sequence from corpus
-        seq_id = input("Insert the sequence ID:")
+        seq_id = int(input("Insert the sequence ID:"))
         while True:
-            if seq_id not in sequence_corpus:  # Check if sequence exists
+            if seq_id not in get_sequences_data(seq_corpus).keys():  # Check if sequence exists
                 print(f'The sequence ID {seq_id} is not in sequence_corpus.')
             else:
                 remove_from_data( create_inverted_index(sequence_corpus),get_sequences_data(sequence_corpus), seq_id)  # Remove sequence
@@ -368,7 +363,6 @@ def menu(sequence_corpus):
     elif choice not in ["1", "2", "3", "4", "5"]: #Option for invalid strings
         print( 'Invalid choice. Please select a valid option.')
         menu(sequence_corpus)
-
 
 
 
